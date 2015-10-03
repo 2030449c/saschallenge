@@ -7,7 +7,7 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from vigilum.models import ut, PoliceOfficer
+from vigilum.models import ut, Userc, Message
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth import models
 from django.utils.timezone import now as utcnow
@@ -16,14 +16,14 @@ import datetime
 def index(request):
 	if request.method == 'POST':
 		print request.POST
-	if request.user.username and request.user.profile.is_operator:
+	if request.user.username and request.user.profile.is_user:
 		return render(request, 'index.html')
 	else:
 		return HttpResponseRedirect(reverse('login'))
 
 
 def login(request):
-	if request.user.username and request.user.profile.is_operator:
+	if request.user.username and request.user.profile.is_user:
 		return HttpResponseRedirect(reverse('index'))
 	context = {'error':''}
 
@@ -36,7 +36,7 @@ def login(request):
 		if user is not None:
 			auth.login(request,user)
 			cu = request.user.profile
-			cu.is_operator = True
+			cu.is_user = True
 			cu.last_accessed = utcnow()
 			cu.save()
 
@@ -53,7 +53,7 @@ def login(request):
 
 def logout(request):
 	cu = request.user.profile
-	cu.is_operator = False
+	cu.is_user = False
 	cu.save()
 	return render(request,'logout.html')
 

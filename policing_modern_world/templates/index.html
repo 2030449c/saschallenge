@@ -28,7 +28,7 @@ html, body {
     line-height:30px;
     background-color:#eeeeee;
     height:70%;
-    width:120px;
+    width:10%;
     float:left;
     padding:5px;	      
 }
@@ -61,44 +61,45 @@ Tokyo<br>
 
 
   <body>
-<div id="map"></div>
-    <script>
-function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 55.8721211, lng: -4.2882005},
-    zoom: 15
-  });
-  var infoWindow = new google.maps.InfoWindow({map: map});
-
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-      };
-
-      infoWindow.setPosition(pos);
-      infoWindow.setContent();
-      map.setCenter(pos);
-    }, function() {
-      handleLocationError(true, infoWindow, map.getCenter());
-    });
-  } else {
-    handleLocationError(false, infoWindow, map.getCenter());
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script>
+var geocoder;
+  var map;
+  function initialize() {
+    geocoder = new google.maps.Geocoder();
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
+    var myOptions = {
+      zoom: 8,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
   }
-}
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(browserHasGeolocation ?
-                        'Error: The Geolocation service failed.' :
-                        'Error: Your browser doesn\'t support geolocation.');
-}
-
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxSqGxFLCTn4QGYAyfcVyDtSlkFzC_xvg&signed_in=true&callback=initMap"
-        async defer>
-    </script>
+  function codeAddress() {
+    var address = document.getElementById("address").value;
+    geocoder.geocode( { 'address': address}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        map.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+            map: map,
+            position: results[0].geometry.location
+        });
+		//alert(results[0].geometry.location);
+		define(["backbone","channel"],function(e,t){return e.View.extend({el:".input-area",events:{"click .submit":"submit","keypress textarea":"submitOnEnter"},submit:function(){nwmsg=this.$el.find("textarea").val(),this.$el.find("textarea").val(""),t.trigger("addMsg",nwmsg)},submitOnEnter:function(e){console.log(e.keyCode),e.keyCode===13&&!e.shiftKey&&this.submit()}})});
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+  }
+</script>
+<body onload="initialize()">
+ <div id="map_canvas" style="width: 90%; height: 70%;"></div>
+  <div>
+    <input style="width: 100%; height: 70%;" id="address" type="textbox" value="-=PUT ADDRESS HERE.=-">
+    <input style="width: 100%; height: 70%;" type="button" value="FIND" onclick="codeAddress()">
+  </div>
+</body>
   </body>
 
 
