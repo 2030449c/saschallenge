@@ -60,43 +60,24 @@ Tokyo<br>
 </div>
 
 
-<body>
+  <body>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script>
   var geocoder;
   var map;
-  var addresses = new Array();
-  
-  navigator.geolocation.getCurrentPosition(initialize);
 
   function initialize(location) {
     geocoder = new google.maps.Geocoder();
-    var center = new google.maps.LatLng(location.coords.latitude, location.coords.longitude);
+    var latlng = new google.maps.LatLng(-34.397, 150.644);
     var myOptions = {
-      zoom: 10,
-      center: center,
+      zoom: 8,
+      center: latlng,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
-    var crimes = {{ crimes|safe }};
+  }
 
-    for (var i = 0; i < crimes.length; i++) {
-      addresses.push( crimes[i].fields.address);
-    };  
-
-    for (var i = 0; i < addresses.length; i++) {
-      geocoder.geocode( { 'address': addresses[i]}, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-         var myLatlng = new google.maps.LatLng(results[0].geometry.location.lat(), results[0].geometry.location.lng());
-        } 
-        var marker = new google.maps.Marker({
-          position: myLatlng,
-          map: map
-        });
-      });
-    };
-}
   function codeAddress() {
     var address = document.getElementById("address").value;
     geocoder.geocode( { 'address': address}, function(results, status) {

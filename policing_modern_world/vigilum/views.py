@@ -27,7 +27,8 @@ def index(request):
                         return render(request, 'index.html', context)
 	if request.user.username and request.user.profile.is_operator:
 		json_serializer = serializers.get_serializer("json")()
-		crimes = json_serializer.serialize(Crime.objects.all().order_by('address')[:5], ensure_ascii=False)
+		crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
+		print crimes
 		return render(request, 'index.html', {'crimes':crimes})
 	else:
 		return HttpResponseRedirect(reverse('login'))

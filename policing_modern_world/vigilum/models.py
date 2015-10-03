@@ -27,7 +27,7 @@ User.profile = property(lambda u: PoliceOfficer.objects.get_or_create(user=u,def
 
 class Record(models.Model):
     police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False})
-    timestamp = models.DateTimeField(auto_now_add= True)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.police
@@ -37,21 +37,14 @@ class Crime(models.Model):
         (1, 'Robbery'),
         (2, 'Theft'),
         (3, 'Rape'),
-        (4, 'Need Backup')
     )
-    IS_RESOLVED_TYPE = (
-        (1, 'Active'),
-        (2, 'Unit At The Scene'),
-        (3, 'Resolved')
-    )
-    types = models.IntegerField(choices= CRIME_TYPE)
-    address = models.CharField(max_length= 300, null = False)
-    isResolved = models.IntegerField(choices= IS_RESOLVED_TYPE)
-    callerName = models.CharField(max_length= 300, null = False)
-    police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False},
-                               null = True, blank = True)
-    timestamp = models.DateTimeField(auto_now_add= True)
-    coordinates = models.TextField(max_length= 200)
+    types = models.IntegerField(choices=CRIME_TYPE)
+    address = models.CharField(max_length=300)
+    isResolved = models.BooleanField(default=False)
+    callerName = models.CharField(max_length=300)
+    police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False}, null = True, blank = True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    coordinates = models.TextField(max_length=200)
 
     def __unicode__(self):
         return self.address
