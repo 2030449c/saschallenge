@@ -60,11 +60,11 @@ Tokyo<br>
 </div>
 
 
-<body>
+  <body>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script>
   var geocoder;
-  var map;
+    var map;
   var addresses = new Array();
   
   navigator.geolocation.getCurrentPosition(initialize);
@@ -116,9 +116,9 @@ Tokyo<br>
 </script>
 <body onload="initialize()">
  <div id="map_canvas" style="width: 90%; height: 70%;"></div>
-  <div class="search">
-    <input style= "width: 100%; height: 25px;" id="address" type="textbox" placeholder="-=PUT ADDRESS HERE.=-">
-	<button  style= "width: 100%; height: 40px;" class="btn btn-lg btn-default btn-block" onclick="codeAddress()" type="submit">FIND</button>
+  <div>
+    <input style="width: 100%; height: 70%;" id="address" type="textbox" placeholder="-=PUT ADDRESS HERE.=-">
+	<button class="btn btn-lg btn-default btn-block" onclick="codeAddress()" type="submit">FIND</button>
   </div>
 </body>
   </body>
@@ -138,9 +138,10 @@ Tokyo<br>
 		<textarea name="ct" id="ct" class="input-box" placeholder=1=Robbery,2=Theft,3=Rape></textarea>
 		<a class="input-box-text">CALLER NAME:</a>
 		<textarea name="cname" id="cname" class="input-box"></textarea>
-        <button class="submit" type="submit" >SUBMIT</button>
+        <button class="submit" type="submit"  >SUBMIT</button>
 		<a class="input-box-text">{{error}}</a>
       </form>
+
 <style type="text/css">
     .submit:hover {
       box-shadow: 0 0 5px 2px #888888 ;
@@ -152,13 +153,6 @@ Tokyo<br>
     }
 </style>
 <style>
-.search{
-  position: fixed;
-  width: 100%;
- bottom: 80;
- height: 240px;
-
- }
 .input-area {
   position: fixed;
   bottom: 0;

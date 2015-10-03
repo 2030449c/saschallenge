@@ -14,7 +14,9 @@ from django.utils.timezone import now as utcnow
 from django.core import serializers
 
 def index(request):
-        context={"error":"Please fill in all forms."}
+        #context={"error":"Please fill in all forms."}
+        json_serializer = serializers.get_serializer("json")()
+	crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
 	if request.method == 'POST':
 		xy = request.POST.get('xy','')
 		addr = request.POST.get('addr','')
@@ -23,15 +25,13 @@ def index(request):
 		if xy != "" and addr !="" and ct != "" and cname !="":
                         m = Crime(coordinates=str(xy),address=str(addr),types=str(ct),callerName=str(cname))
                         m.save()
+                        return render(request, 'index.html', {'crimes':crimes})
                 else:
-                        return render(request, 'index.html', context)
+                        return render(request, 'index.html', {'crimes':crimes})
 	if request.user.username and request.user.profile.is_operator:
-		json_serializer = serializers.get_serializer("json")()
-		crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
-		print crimes
 		return render(request, 'index.html', {'crimes':crimes})
-	else:
-		return HttpResponseRedirect(reverse('login'))
+        context.update(csrf(request))
+        return HttpResponseRedirect(reverse('login'))
 
 
 def login(request):
@@ -69,6 +69,9 @@ def logout(request):
 	cu.save()
 	return render(request,'logout.html')
 
-
-
-
+def police_api(request):
+        context = {'error':''}
+        if request.user.username and request.user.profile.is_operator:
+		return render(request, 'police_api.html')
+        context.update(csrf(request))
+        return HttpResponseRedirect(reverse('login'))

@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     url(r'^login', views.login, name='login'),
     url(r'^index',views.index,name='index'),
     url(r'^logout',views.logout,name='logout'),
+    url(r'^police_api',views.police_api,name='police_api'),
 )
