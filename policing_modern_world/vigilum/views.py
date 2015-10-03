@@ -14,10 +14,10 @@ from django.utils.timezone import now as utcnow
 from django.core import serializers
 
 def index(request):
-        #context={"error":"Please fill in all forms."}
-        json_serializer = serializers.get_serializer("json")()
-	crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
-	if request.method == 'POST':
+    context={"error":"Please fill in all forms."}
+    json_serializer = serializers.get_serializer("json")()
+    crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
+    if request.method == 'POST':
                 json_serializer = serializers.get_serializer("json")()
                 crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
 		xy = request.POST.get('xy','')
@@ -30,10 +30,10 @@ def index(request):
                         return render(request, 'index.html', {'crimes':crimes})
                 else:
                         return render(request, 'index.html', {'crimes':crimes})
-	if request.user.username and request.user.profile.is_operator:
+    if request.user.username and request.user.profile.is_operator:
 		return render(request, 'index.html', {'crimes':crimes})
-        context.update(csrf(request))
-        return HttpResponseRedirect(reverse('login'))
+    context.update(csrf(request))
+    return HttpResponseRedirect(reverse('login'))
 
 
 def login(request):
