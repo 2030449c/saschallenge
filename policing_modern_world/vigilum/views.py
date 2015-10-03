@@ -53,7 +53,7 @@ def login(request):
 
 def logout(request):
 	cu = request.user.profile
-	cu.is_chat_user = False
+	cu.is_user = False
 	cu.save()
 	return render(request,'logout.html')
 
