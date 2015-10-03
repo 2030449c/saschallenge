@@ -1,0 +1,48 @@
+﻿<html lang="en">
+<head>
+  <title>Log in</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <style>
+    body{
+        background-image: url("http://i.huffpost.com/gen/2472832/images/o-BLACK-COP-BADGE-facebook.jpg");
+        background-repeat:no-repeat;
+        background-size:cover;
+    }
+	h1 {
+    color: #E8E8E8;
+}
+
+    </style>
+
+
+<h1 align="center">OPERATOR</h1>
+<hr COLOR="grey">
+
+<h2 align="center">
+
+<div class="container" style="max-width:400px">
+
+      <form method="post" class="form-signin">{% csrf_token %}
+        <h2 class="form-signin-heading">Please Log in</h2>
+        <input type="text" name="username" class="form-control" placeholder="username" autofocus>
+        <input type="password" name="password" class="form-control" placeholder="password">
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
+      </form>
+		<p>{{error}}</p>
+    </div> <!-- /container -->
+
+
+</h2>
+
+
+
+
+</body>
+</html>
