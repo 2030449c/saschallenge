@@ -38,19 +38,14 @@ class Crime(models.Model):
         (2, 'Theft'),
         (3, 'Rape'),
     )
-    type = models.IntegerField(choices=CRIME_TYPE)
+    types = models.IntegerField(choices=CRIME_TYPE)
     address = models.CharField(max_length=300)
     isResolved = models.BooleanField(default=False)
     callerName = models.CharField(max_length=300)
-    police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False})
+    police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False}, null = True, blank = True)
+ 
     timestamp = models.DateTimeField(auto_now_add=True)
+    coordinates = models.TextField(max_length=200)
 
     def __unicode__(self):
         return self.address
-
-class Message(models.Model):
-	user = models.CharField(max_length=200)
-	message = models.TextField(max_length=200)
-	time = models.DateTimeField(auto_now_add=True)
-	def __unicode__(self):
-		return self.user

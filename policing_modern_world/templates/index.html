@@ -46,7 +46,7 @@ html, body {
 <body>
 
 <div id="header">
-<h1>MAP</h1>
+<h1>Policing modern world.</h1>
 <div align="right"> <a href="/vigilum/logout" target="_parent"><button type="button" class="btn btn-default">Log out</button></a> 
 </div>
 </div>
@@ -63,8 +63,9 @@ Tokyo<br>
   <body>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script>
-var geocoder;
+  var geocoder;
   var map;
+
   function initialize() {
     geocoder = new google.maps.Geocoder();
     var latlng = new google.maps.LatLng(-34.397, 150.644);
@@ -74,6 +75,7 @@ var geocoder;
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
   }
 
   function codeAddress() {
@@ -85,8 +87,8 @@ var geocoder;
             map: map,
             position: results[0].geometry.location
         });
+		document.getElementById("xy").innerHTML = results[0].geometry.location;
 		//alert(results[0].geometry.location);
-		define(["backbone","channel"],function(e,t){return e.View.extend({el:".input-area",events:{"click .submit":"submit","keypress textarea":"submitOnEnter"},submit:function(){nwmsg=this.$el.find("textarea").val(),this.$el.find("textarea").val(""),t.trigger("addMsg",nwmsg)},submitOnEnter:function(e){console.log(e.keyCode),e.keyCode===13&&!e.shiftKey&&this.submit()}})});
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
@@ -96,12 +98,11 @@ var geocoder;
 <body onload="initialize()">
  <div id="map_canvas" style="width: 90%; height: 70%;"></div>
   <div>
-    <input style="width: 100%; height: 70%;" id="address" type="textbox" value="-=PUT ADDRESS HERE.=-">
-    <input style="width: 100%; height: 70%;" type="button" value="FIND" onclick="codeAddress()">
+    <input style="width: 100%; height: 70%;" id="address" type="textbox" placeholder="-=PUT ADDRESS HERE.=-">
+	<button class="btn btn-lg btn-default btn-block" onclick="codeAddress()" type="submit">FIND</button>
   </div>
 </body>
   </body>
-
 
 
 <div id="footer">
@@ -109,8 +110,13 @@ var geocoder;
 
 <div id = "bottoml">
 <section class="input-area">
-<textarea id="inputt" class="input-box"></textarea>
-<button class="submit"><h6>SUBMIT</h6></button>
+      <form method="post" class="submitf">{% csrf_token %}
+		<textarea name="xy" id="xy" ></textarea>
+		<textarea name="addr" id="addr" ></textarea>
+		<textarea name="ct" id="ct"></textarea>
+		<textarea name="cname" id="cname"> </textarea>
+        <button class="submit" type="submit">SUBMIT</button>
+      </form>
 <style type="text/css">
     .submit:hover {
       box-shadow: 0 0 5px 2px #888888 ;

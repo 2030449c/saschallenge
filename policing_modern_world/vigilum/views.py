@@ -7,17 +7,24 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 import json
-from vigilum.models import ut, PoliceOfficer, Message
+from vigilum.models import ut, PoliceOfficer, Crime
 from django.contrib.auth.models import User, Permission
 from django.contrib.auth import models
 from django.utils.timezone import now as utcnow
-
+from django.core import serializers
 
 def index(request):
 	if request.method == 'POST':
-		print request.POST
+		cd = request.POST.get('inputt','')
+		if cd != "":
+                        print cd
+                        cd=cd.split(" ")
+                        m = Crime(coordinates=str(cd[0])+str(cd[1]),types=cd[2])
+                        m.save()
 	if request.user.username and request.user.profile.is_operator:
-		return render(request, 'index.html')
+		json_serializer = serializers.get_serializer("json")()
+		crimes = json_serializer.serialize(Crime.objects.all().order_by('address')[:5], ensure_ascii=False)
+		return render(request, 'index.html', {'crimes':crimes})
 	else:
 		return HttpResponseRedirect(reverse('login'))
 
@@ -56,4 +63,7 @@ def logout(request):
 	cu.is_operator = False
 	cu.save()
 	return render(request,'logout.html')
+
+
+
 
