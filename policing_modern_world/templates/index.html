@@ -15,7 +15,7 @@ html, body {
     padding: 0;
 }
 #map{
-    height: 60%;
+    height: 70%;
 }
 
 #header {
@@ -27,7 +27,7 @@ html, body {
 #nav {
     line-height:30px;
     background-color:#eeeeee;
-    height:512px;
+    height:70%;
     width:120px;
     float:left;
     padding:5px;	      
@@ -47,7 +47,11 @@ html, body {
 
 <div id="header">
 <h1>MAP</h1>
+<div align="right"> <a href="/vigilum/logout" target="_parent"><button type="button" class="btn btn-default">Log out</button></a> 
 </div>
+</div>
+
+
 
 <div id="nav">
 London<br>
@@ -103,7 +107,51 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 </div>
 
 <div id = "bottoml">
-<h6><a href="/vigilum/logout" target="_parent"><button type="button" class="btn btn-default">Log out</button></a>
+<section class="input-area">
+<textarea id="inputt" class="input-box"></textarea>
+<button class="submit"><h6>SUBMIT</h6></button>
+<style type="text/css">
+    .submit:hover {
+      box-shadow: 0 0 5px 2px #888888 ;
+      -webkit-box-shadow: 0 0 5px 2px #888888 ;
+      -moz-box-shadow: 0 0 5px 2px #888888;
+    }
+    .submit{
+        position: static;
+    }
+</style>
+<style>
+.input-area {
+  position: fixed;
+  bottom: 0;
+  z-index: 6;
+  width: 100%;
+  background-color: #ccc;
+  height: 75px;
+  box-shadow: 0px -2px 10px 1px #555555;
+}
+.input-area img {
+  float: left;
+  text-align: center;
+  margin: 5px;
+}
+.input-area .input-box {
+  float: left;
+  width: 80%;
+  background-color: #eee;
+  resize: none;
+  border: none;
+  margin: 5px;
+  height: 64px;
+}
+.input-area .submit {
+  float: left;
+  width: 8%;
+  height: 64px;
+  margin: 5px;
+}
+ </style>
+ 
 </div>
 
 </body>
