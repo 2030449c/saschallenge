@@ -43,7 +43,6 @@ class Crime(models.Model):
     isResolved = models.BooleanField(default=False)
     callerName = models.CharField(max_length=300)
     police = models.ForeignKey(PoliceOfficer, limit_choices_to={'is_operator':False}, null = True, blank = True)
- 
     timestamp = models.DateTimeField(auto_now_add=True)
     coordinates = models.TextField(max_length=200)
 

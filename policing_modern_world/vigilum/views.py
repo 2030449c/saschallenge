@@ -14,13 +14,17 @@ from django.utils.timezone import now as utcnow
 from django.core import serializers
 
 def index(request):
+        context={"error":"Please fill in all forms."}
 	if request.method == 'POST':
-		cd = request.POST.get('inputt','')
-		if cd != "":
-                        print cd
-                        cd=cd.split(" ")
-                        m = Crime(coordinates=str(cd[0])+str(cd[1]),types=cd[2])
+		xy = request.POST.get('xy','')
+		addr = request.POST.get('addr','')
+		ct = request.POST.get('ct','')
+		cname = request.POST.get('cname','')
+		if xy != "" and addr !="" and ct != "" and cname !="":
+                        m = Crime(coordinates=str(xy),address=str(addr),types=str(ct),callerName=str(cname))
                         m.save()
+                else:
+                        return render(request, 'index.html', context)
 	if request.user.username and request.user.profile.is_operator:
 		json_serializer = serializers.get_serializer("json")()
 		crimes = json_serializer.serialize(Crime.objects.all().order_by('address')[:5], ensure_ascii=False)

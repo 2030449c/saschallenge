@@ -88,7 +88,7 @@ Tokyo<br>
             position: results[0].geometry.location
         });
 		document.getElementById("xy").innerHTML = results[0].geometry.location;
-		//alert(results[0].geometry.location);
+		document.getElementById("addr").innerHTML = address;
       } else {
         alert("Geocode was not successful for the following reason: " + status);
       }
@@ -111,11 +111,16 @@ Tokyo<br>
 <div id = "bottoml">
 <section class="input-area">
       <form method="post" class="submitf">{% csrf_token %}
-		<textarea name="xy" id="xy" ></textarea>
-		<textarea name="addr" id="addr" ></textarea>
-		<textarea name="ct" id="ct"></textarea>
-		<textarea name="cname" id="cname"> </textarea>
-        <button class="submit" type="submit">SUBMIT</button>
+		<a class="input-box-text">COORDINATES:</a>
+		<textarea name="xy" id="xy" class="input-box"></textarea>
+		<a class="input-box-text">ADDRESS:</a>
+		<textarea name="addr" id="addr" class="input-box"></textarea>
+		<a class="input-box-text">TYPE:</a>
+		<textarea name="ct" id="ct" class="input-box" placeholder=1=Robbery,2=Theft,3=Rape></textarea>
+		<a class="input-box-text">CALLER NAME:</a>
+		<textarea name="cname" id="cname" class="input-box"></textarea>
+        <button class="submit" type="submit" >SUBMIT</button>
+		<a class="input-box-text">{{error}}</a>
       </form>
 <style type="text/css">
     .submit:hover {
@@ -137,14 +142,13 @@ Tokyo<br>
   height: 75px;
   box-shadow: 0px -2px 10px 1px #555555;
 }
-.input-area img {
-  float: left;
-  text-align: center;
-  margin: 5px;
+.input-area .input-box-text {
+height: 75px;
+vertical-align: 140%;
+
 }
 .input-area .input-box {
-  float: left;
-  width: 80%;
+  width: 14%;
   background-color: #eee;
   resize: none;
   border: none;
@@ -152,7 +156,7 @@ Tokyo<br>
   height: 64px;
 }
 .input-area .submit {
-  float: left;
+  float: right;
   width: 8%;
   height: 64px;
   margin: 5px;
