@@ -18,6 +18,8 @@ def index(request):
         json_serializer = serializers.get_serializer("json")()
 	crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
 	if request.method == 'POST':
+                json_serializer = serializers.get_serializer("json")()
+                crimes = json_serializer.serialize(Crime.objects.all(), ensure_ascii=False)
 		xy = request.POST.get('xy','')
 		addr = request.POST.get('addr','')
 		ct = request.POST.get('ct','')

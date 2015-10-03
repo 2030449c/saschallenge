@@ -13,18 +13,34 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Userc',
+            name='Crime',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('userID', models.IntegerField()),
+                ('types', models.IntegerField(choices=[(1, b'Robbery'), (2, b'Theft'), (3, b'Rape')])),
+                ('address', models.CharField(max_length=300)),
+                ('isResolved', models.BooleanField(default=False)),
+                ('callerName', models.CharField(max_length=300)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('coordinates', models.TextField(max_length=200)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PoliceOfficer',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('username', models.CharField(max_length=300)),
-                ('is_user', models.BooleanField(default=False)),
+                ('is_operator', models.BooleanField(default=False)),
                 ('last_accessed', models.DateTimeField(auto_now_add=True)),
                 ('user', models.OneToOneField(to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-            },
-            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Record',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('police', models.ForeignKey(to='vigilum.PoliceOfficer')),
+            ],
         ),
         migrations.CreateModel(
             name='ut',
@@ -33,8 +49,10 @@ class Migration(migrations.Migration):
                 ('user', models.CharField(max_length=200)),
                 ('time', models.DateTimeField(auto_now_add=True)),
             ],
-            options={
-            },
-            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='crime',
+            name='police',
+            field=models.ForeignKey(blank=True, to='vigilum.PoliceOfficer', null=True),
         ),
     ]
